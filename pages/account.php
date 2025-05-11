@@ -88,3 +88,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_all'])) {
 </div>
 
 <?php include '../templates/footer.php'; ?>
+
