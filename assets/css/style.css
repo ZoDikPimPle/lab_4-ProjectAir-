@@ -1,12 +1,13 @@
 :root {
-    --primary: #2563eb; /* Более насыщенный синий */
-    --primary-hover: #1d4ed8;
-    --secondary: #93c5fd;
-    --light: #3073b6;
-    --dark: rgba(211, 209, 209, 0.22);
-    --gray: #e2e8f0;
+    --primary: #5d89ea; /* Основной синий */
+    --primary-hover: #1d4ed8; /* Темный синий для hover */
+    --secondary: #93c5fd; /* Светло-голубой */
+    --light: #8fb2ec; /* Средний синий */
+    --dark: #1e293b; /* Темно-синий для текста */
+    --gray: #e0f2fe; /* Очень светлый голубой */
+    --white: #ffffff; /* Чистый белый */
     --radius: 12px;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
     --transition: all 0.3s ease;
 }
 
@@ -18,7 +19,7 @@ body {
     font-family: 'Inter', -apple-system, sans-serif;
     line-height: 1.6;
     color: var(--dark);
-    background-color: #f1f5f9;
+    background-color: #f8fafc; /* Светлый голубовато-белый фон */
     margin: 0;
     padding: 0;
 }
@@ -32,7 +33,7 @@ body {
 
 /* Хедер */
 header {
-    background: white;
+    background: var(--white);
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
@@ -93,7 +94,7 @@ nav a:hover::after {
 
 .hero {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
+    color: var(--white);
     padding: 4rem 0;
     border-radius: var(--radius);
     margin-bottom: 2rem;
@@ -113,7 +114,7 @@ nav a:hover::after {
 }
 
 .feature-card {
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
     padding: 2rem;
     box-shadow: var(--shadow);
@@ -122,7 +123,7 @@ nav a:hover::after {
 
 .feature-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
 }
 
 .feature-card h3 {
@@ -132,7 +133,7 @@ nav a:hover::after {
 
 /* Формы */
 .auth-form {
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     padding: 2.5rem;
@@ -174,7 +175,7 @@ nav a:hover::after {
 .btn {
     display: inline-block;
     background: var(--primary);
-    color: white;
+    color: var(--white);
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: var(--radius);
@@ -200,7 +201,7 @@ nav a:hover::after {
 .mt-3 { margin-top: 1.5rem; }
 
 .filters-card {
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
     padding: 1.5rem;
     box-shadow: var(--shadow);
@@ -220,7 +221,7 @@ nav a:hover::after {
 }
 
 .flight-card {
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     overflow: hidden;
@@ -229,7 +230,7 @@ nav a:hover::after {
 
 .flight-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
 }
 
 .flight-header {
@@ -335,7 +336,7 @@ nav a:hover::after {
 .no-results {
     text-align: center;
     padding: 2rem;
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
 }
 
@@ -344,7 +345,7 @@ nav a:hover::after {
 }
 
 .booking-item {
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     padding: 1.5rem;
@@ -392,9 +393,10 @@ nav a:hover::after {
 .no-bookings {
     text-align: center;
     padding: 2rem;
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
 }
+
 .news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -403,7 +405,7 @@ nav a:hover::after {
 }
 
 .news-card {
-    background: white;
+    background: var(--white);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     overflow: hidden;
@@ -412,7 +414,7 @@ nav a:hover::after {
 
 .news-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.1);
 }
 
 .news-image {
@@ -448,10 +450,19 @@ nav a:hover::after {
 /* Footer Styles */
 .site-footer {
     background-color: var(--dark);
-    color: white;
+    color: var(--white);
     padding: 3rem 0 0;
     margin-top: 3rem;
+    width: 100vw; /* Используем 100vw для установки ширины на всю ширину окна */
+    position: relative; /* Относительное позиционирование */
+    left: 50%; /* Сдвигаем элемент вправо на 50% */
+    right: 50%; /* Сдвигаем элемент влево на 50% */
+    margin-left: -50vw; /* Сдвигаем элемент влево на половину его ширины */
+    margin-right: -50vw; /* Сдвигаем элемент вправо на половину его ширины */
+    box-sizing: border-box;
 }
+
+
 
 .footer-content {
     display: grid;
@@ -556,4 +567,100 @@ nav a:hover::after {
 
 .footer-legal a:hover {
     text-decoration: underline;
+}
+
+.auth-form {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray);
+}
+
+.auth-form h2 {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.auth-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--gray);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.auth-form button {
+    background: var(--primary);
+    color: var(--white);
+    padding: 0.8rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 0.5rem;
+}
+
+.auth-form button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Стили для сообщений */
+.success {
+    background: #dcfce7;
+    color: #166534;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #22c55e;
+    font-size: 0.95rem;
+}
+
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #ef4444;
+    font-size: 0.95rem;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .auth-form {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .auth-form h2 {
+        font-size: 1.5rem;
+    }
 }
