@@ -4,6 +4,28 @@ require_once '../includes/functions.php';
 
 session_start();
 
+// Пользовательский обработчик ошибок
+function userErrorHandler($errno, $errstr, $errfile, $errline) {
+    $dt = date("Y-m-d H:i:s");
+    $error_message = "[$dt] Ошибка [$errno] $errstr в $errfile на строке $errline\n";
+    error_log($error_message, 3, "error_log.txt"); // Логирование ошибки в файл
+    echo "<div class='error-message'>Произошла ошибка. Пожалуйста, попробуйте позже.</div>";
+}
+
+// Установить пользовательский обработчик ошибок
+set_error_handler("userErrorHandler");
+
+// Пользовательский обработчик исключений
+function exceptionHandler($exception) {
+    $dt = date("Y-m-d H:i:s");
+    $error_message = "[$dt] Исключение: " . $exception->getMessage() . " в " . $exception->getFile() . " на строке " . $exception->getLine() . "\n";
+    error_log($error_message, 3, "error_log.txt"); // Логирование исключения в файл
+    echo "<div class='error-message'>Произошла ошибка. Пожалуйста, попробуйте позже.</div>";
+}
+
+// Установить пользовательский обработчик исключений
+set_exception_handler("exceptionHandler");
+
 // Если пользователь уже авторизован, перенаправляем его
 if (isset($_SESSION['user_id'])) {
     header("Location: /dashboard.php");
@@ -85,53 +107,51 @@ if (!isset($_SESSION['captcha'])) {
 //function generate_captcha() {
 //    return substr(md5(uniqid(rand(), true)), 0, 6);
 //}
-?>
-
+//?>
 
 <?php include '../templates/header.php'; ?>
 
-    <div class="auth-form">
-        <h2>Регистрация</h2>
+<div class="auth-form">
+    <h2>Регистрация</h2>
 
-        <!-- Вывод сообщений об успехе/ошибке -->
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="success"><?= $_SESSION['success'] ?></div>
-            <?php unset($_SESSION['success']); ?>
-        <?php endif; ?>
+    <!-- Вывод сообщений об успехе/ошибке -->
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="success"><?= $_SESSION['success'] ?></div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
 
-        <?php if (isset($error)): ?>
-            <div class="error"><?= $error ?></div>
-        <?php endif; ?>
+    <?php if (isset($error)): ?>
+        <div class="error"><?= $error ?></div>
+    <?php endif; ?>
 
-        <form method="POST">
-            <div class="input-group">
-                <label>Email:</label>
-                <input type="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
-            </div>
-
-            <div class="input-group">
-                <label>Пароль:</label>
-                <input type="password" name="password" required minlength="8">
-                <small class="hint">Минимум 8 символов</small>
-            </div>
-
-            <div class="input-group">
-                <label>Повторите пароль:</label>
-                <input type="password" name="password_confirm" required>
-            </div>
-
-            <div class="input-group captcha-group">
-                <label>Введите капчу: <span class="captcha-code"><?= $_SESSION['captcha'] ?></span></label>
-                <input type="text" name="captcha" required>
-            </div>
-
-            <button type="submit" class="btn">Зарегистрироваться</button>
-        </form>
-
-        <div class="auth-link">
-            Уже есть аккаунт? <a href="login.php">Войдите</a>
+    <form method="POST">
+        <div class="input-group">
+            <label>Email:</label>
+            <input type="email" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
         </div>
-    </div>
 
-<?php include '../templates/footer.php'; ?>
+        <div class="input-group">
+            <label>Пароль:</label>
+            <input type="password" name="password" required minlength="8">
+            <small class="hint">Минимум 8 символов</small>
+        </div>
+
+        <div class="input-group">
+            <label>Повторите пароль:</label>
+            <input type="password" name="password_confirm" required>
+        </div>
+
+        <div class="input-group captcha-group">
+            <label>Введите капчу: <span class="captcha-code"><?= $_SESSION['captcha'] ?></span></label>
+            <input type="text" name="captcha" required>
+        </div>
+
+        <button type="submit" class="btn">Зарегистрироваться</button>
+    </form>
+
+    <div class="auth-link">
+        Уже есть аккаунт? <a href="login.php">Войдите</a>
+    </div>
+</div>
+
 <?php include '../templates/footer.php'; ?>
