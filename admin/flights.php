@@ -62,6 +62,27 @@ $statuses = ['Scheduled', 'Departed', 'Arrived', 'Cancelled', 'Delayed'];
     <h2>Рейсы</h2>
     <a href="edit.php">Добавить новый рейс</a>
 
+
+    <div style="margin: 10px 0;">
+        <button onclick="massUpdateStatus('Cancelled')" class="mass-action-btn">Отменить все рейсы</button>
+        <button onclick="massUpdateStatus('Delayed')" class="mass-action-btn">Задержать все рейсы</button>
+    </div>
+
+    <style>
+        .mass-action-btn {
+            padding: 8px 15px;
+            margin-right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .mass-action-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+
     <!-- Форма фильтрации -->
     <form method="get" id="filterForm">
         <table border="1" cellpadding="5" cellspacing="0">
@@ -114,11 +135,12 @@ $statuses = ['Scheduled', 'Departed', 'Arrived', 'Cancelled', 'Delayed'];
                 </th>
                 <th>
                     <button type="submit">Фильтровать</button>
-                    <button type="button" onclick="document.getElementById('filterForm').reset()">Сбросить</button>
+                    <button type="button" onclick="resetFilters()">Сбросить</button>
                 </th>
             </tr>
         </table>
     </form>
+
 
     <!-- Таблица с данными -->
     <table border="1" cellpadding="5" cellspacing="0" id="flightsTable">
@@ -168,6 +190,8 @@ $statuses = ['Scheduled', 'Departed', 'Arrived', 'Cancelled', 'Delayed'];
     </table>
 
     <script>
+
+
         document.addEventListener('DOMContentLoaded', function() {
             const table = document.getElementById('flightsTable');
 
@@ -322,6 +346,63 @@ $statuses = ['Scheduled', 'Departed', 'Arrived', 'Cancelled', 'Delayed'];
                     });
             }
         });
+
+        function resetFilters() {
+            // Сброс значений всех полей фильтрации
+            const form = document.getElementById('filterForm');
+            const inputs = form.querySelectorAll('input, select');
+
+            inputs.forEach(input => {
+                if (input.type === 'text' || input.type === 'datetime-local') {
+                    input.value = '';
+                } else if (input.tagName === 'SELECT') {
+                    input.selectedIndex = 0;
+                }
+            });
+
+            // Отправка формы после сброса
+            form.submit();
+        }
+
+        function massUpdateStatus(newStatus) {
+            if (!confirm(`Вы уверены, что хотите ${newStatus === 'Cancelled' ? 'отменить' : 'задержать'} ВСЕ рейсы?`)) {
+                return;
+            }
+
+            // Получаем все номера рейсов из таблицы
+            const flightNumbers = Array.from(document.querySelectorAll('tr[data-flight]')).map(
+                row => row.getAttribute('data-flight')
+            );
+
+            if (flightNumbers.length === 0) {
+                alert('Нет рейсов для обновления');
+                return;
+            }
+
+            fetch('mass_update_flights.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    flight_numbers: flightNumbers,
+                    new_status: newStatus
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Статус ${flightNumbers.length} рейсов успешно обновлен на "${newStatus}"`);
+                        location.reload(); // Обновляем страницу
+                    } else {
+                        alert('Ошибка: ' + (data.message || 'Неизвестная ошибка'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Произошла ошибка при обновлении статусов');
+                });
+        }
     </script>
 
 <?php include 'footer.php'; ?>

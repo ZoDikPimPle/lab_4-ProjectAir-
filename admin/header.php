@@ -12,6 +12,7 @@
         <a href="index.php">Главная</a> |
         <a href="flights.php">Рейсы</a> |
         <a href="bookings.php">Бронирования</a> |
+        <a href="profile.php">Профиль</a> |
         <a href="../includes/logout.php">Выйти</a>
     </nav>
     <hr />
